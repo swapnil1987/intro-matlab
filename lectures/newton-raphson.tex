@@ -1,0 +1,252 @@
+\documentclass[10pt]{beamer}
+\usepackage{tabulary}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{tabulary}
+\usepackage{caption} 
+\usepackage{listings}
+\usecolortheme{whale}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+\usepackage[ruled,vlined,noend]{algorithm2e}
+
+%\usefonttheme{professionalfonts}
+%\setbeamerfont{itemize/enumerate body}{family=\sffamily, size={\fontsize{10}{10}}}
+%\setbeamerfont{itemize/enumerate subbody}{family=\sffamily, size={\fontsize{10}{10}}}
+\setbeamerfont{frametitle}{size=\large}
+
+%\mode<presentation>
+%\usetheme{CambridgeUS}
+\usetheme{metropolis}
+
+\usepackage{istgame}
+%\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+\usepackage{caption,subcaption}
+\usepackage[flushleft]{threeparttable}
+\setbeamertemplate{itemize items}[circle]
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+% Define document properties
+\title{\textsc{Newton Raphson Method}}
+
+\date{\today}
+\author[Short Name (U ABC)]{%
+  \texorpdfstring{%
+    \begin{columns}
+      \column{\linewidth}
+      Swapnil Singh \\ Bank of Lithuania, KTU
+    \end{columns}
+ }
+ {Anu Alexander, Nancy Luke, Kaivan Munshi, Swapnil Singh}
+}
+
+
+\lstdefinestyle{matlab}{
+    language=Matlab,
+    basicstyle=\small\ttfamily,
+    numbers=left,
+    numberstyle=\tiny,
+    frame=tb,
+    columns=fullflexible,
+    backgroundcolor=\color{yellow!10},
+    linewidth=\textwidth,
+    keepspaces=true,
+    breaklines=true,
+    breakatwhitespace=true,
+    showspaces=false,
+    showtabs=false,
+    commentstyle=\color{green!60!black},
+    keywordstyle=\color{blue},
+    stringstyle=\color{red}
+}
+
+\newcommand*\widebar[1]{%
+   \hbox{%
+     \vbox{%
+       \hrule height 0.5pt % The actual bar
+       \kern0.5ex%         % Distance between bar and symbol
+       \hbox{%
+         \kern-0.1em%      % Shortening on the left side
+         \ensuremath{#1}%
+         \kern-0.1em%      % Shortening on the right side
+       }%
+     }%
+   }%
+} 
+
+% bibtex fix
+\bibliographystyle{plainnat}
+
+
+% theorems etc
+\theoremstyle{plain}% default
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+%\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{exmp}{Example}
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+%\newtheorem*{note}{Note}
+\newtheorem{case}{Case}
+
+% References to theorems etc
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\propref}[1]{Proposition~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+
+
+\newcommand{\propnumber}{} % initialize
+\newtheorem*{prop}{Proposition \propnumber}
+\newenvironment{propc}[1]
+{\renewcommand{\propnumber}{#1}%
+\begin{prop}
+		\end{prop}}
+
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+
+
+\begin{frame}{Newton-Raphson Method: Overview}
+    \begin{itemize}
+        \item \textbf{Purpose:} Find roots of equation $f(x) = 0$ or minimum/maximum of function
+        \item \textbf{Key Idea:} Use local quadratic approximation
+        \item \textbf{Advantages:}
+        \begin{itemize}
+            \item Quadratic convergence when close to solution
+            \item Efficient for smooth functions
+            \item Works well for multi-dimensional problems
+        \end{itemize}
+        \item \textbf{Disadvantages:}
+        \begin{itemize}
+            \item Requires derivatives
+            \item Sensitive to starting point
+            \item May not converge for poor initial guesses
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Mathematical Foundation}
+    \textbf{For Root Finding:}
+    \begin{align*}
+        x_{k+1} &= x_k - \frac{f(x_k)}{f'(x_k)}
+    \end{align*}
+    
+    \textbf{For Optimization:}
+    \begin{itemize}
+        \item Find where gradient is zero: $\nabla f(x) = 0$
+        \item Update formula:
+        \begin{align*}
+            x_{k+1} &= x_k - [H(x_k)]^{-1}\nabla f(x_k)
+        \end{align*}
+        where:
+        \begin{itemize}
+            \item $\nabla f(x_k)$ is the gradient
+            \item $H(x_k)$ is the Hessian matrix
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Convergence Properties}
+    \textbf{Quadratic Convergence:}
+    \begin{itemize}
+        \item Error reduces quadratically:
+        \[ \|e_{k+1}\| \leq C\|e_k\|^2 \]
+        \item Requires:
+        \begin{itemize}
+            \item Smooth function
+            \item Good initial guess
+            \item Non-singular Hessian at solution
+        \end{itemize}
+    \end{itemize}
+    
+    \textbf{Conditions for Minimum:}
+    \begin{itemize}
+        \item First-order: $\nabla f(x^*) = 0$
+        \item Second-order: $H(x^*)$ is positive definite
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Algorithm Implementation}
+    \begin{algorithm2e}[H]
+    \SetAlgoLined
+    \KwIn{Initial guess $x_0$, tolerance $\epsilon$, max iterations $N$}
+    \KwOut{Optimal point $x^*$}
+    
+    $k \leftarrow 0$\;
+    \While{$k < N$}{
+        Compute gradient: $g_k = \nabla f(x_k)$\;
+        Compute Hessian: $H_k = H(x_k)$\;
+        \If{$\|g_k\| < \epsilon$}{
+            \Return{$x_k$}\;
+        }
+        Solve: $H_k d_k = -g_k$\;
+        Update: $x_{k+1} = x_k + d_k$\;
+        $k \leftarrow k + 1$\;
+    }
+    \Return{$x_k$}
+    \caption{Newton-Raphson Optimization}
+    \end{algorithm2e}
+\end{frame}
+
+\begin{frame}{MATLAB Implementation Tips}
+    \textbf{Key Components:}
+    \begin{itemize}
+        \item \textbf{Function Evaluation:}
+        \begin{itemize}
+            \item Define objective function
+            \item Compute gradient analytically or numerically
+            \item Compute Hessian analytically or numerically
+        \end{itemize}
+        \item \textbf{Linear System Solution:}
+        \begin{itemize}
+            \item Use \texttt{mldivide} (backslash) operator
+            \item Check condition number
+            \item Handle singular matrices
+        \end{itemize}
+        \item \textbf{Convergence Check:}
+        \begin{itemize}
+            \item Gradient norm
+            \item Step size
+            \item Function value change
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Practical Considerations}
+    \textbf{Implementation Challenges:}
+    \begin{itemize}
+        \item Choose appropriate stopping criteria
+        \item Handle ill-conditioned Hessians
+        \item Select good initial point
+        \item Deal with non-convex functions
+    \end{itemize}
+    
+    \textbf{Improvements:}
+    \begin{itemize}
+        \item Line search for step size
+        \item Trust region methods
+        \item Quasi-Newton methods (BFGS)
+        \item Regularization for ill-conditioning
+    \end{itemize}
+\end{frame}
+\end{document}

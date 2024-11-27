@@ -1,0 +1,181 @@
+\documentclass[10pt]{beamer}
+\usepackage{tabulary,tabu}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{tabulary,tabu}
+\usepackage{caption} 
+%\usefonttheme{professionalfonts}
+%\setbeamerfont{itemize/enumerate body}{family=\sffamily, size={\fontsize{10}{10}}}
+%\setbeamerfont{itemize/enumerate subbody}{family=\sffamily, size={\fontsize{10}{10}}}
+\setbeamerfont{frametitle}{size=\large}
+
+%\mode<presentation>
+%\usetheme{CambridgeUS}
+\usetheme{metropolis}
+\usecolortheme{default} % change this to change the color scheme
+\usepackage{istgame}
+%\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+\usepackage{caption,subcaption}
+\usepackage[flushleft]{threeparttable}
+\setbeamertemplate{itemize items}[circle]
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+% Define document properties
+\title{\textsc{The Heat Equation: Theory and Implementation}}
+
+\date{\today}
+\author[Short Name (U ABC)]{%
+  \texorpdfstring{%
+    \begin{columns}
+      \column{\linewidth}
+      Swapnil Singh \\ Bank of Lithuania, KTU
+    \end{columns}
+ }
+ {Anu Alexander, Nancy Luke, Kaivan Munshi, Swapnil Singh}
+}
+
+\date{April 2021}
+
+\newcommand*\widebar[1]{%
+   \hbox{%
+     \vbox{%
+       \hrule height 0.5pt % The actual bar
+       \kern0.5ex%         % Distance between bar and symbol
+       \hbox{%
+         \kern-0.1em%      % Shortening on the left side
+         \ensuremath{#1}%
+         \kern-0.1em%      % Shortening on the right side
+       }%
+     }%
+   }%
+} 
+
+% bibtex fix
+\bibliographystyle{plainnat}
+
+
+% theorems etc
+\theoremstyle{plain}% default
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+%\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{exmp}{Example}
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+%\newtheorem*{note}{Note}
+\newtheorem{case}{Case}
+
+% References to theorems etc
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\propref}[1]{Proposition~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+
+
+\newcommand{\propnumber}{} % initialize
+\newtheorem*{prop}{Proposition \propnumber}
+\newenvironment{propc}[1]
+{\renewcommand{\propnumber}{#1}%
+\begin{prop}
+		\end{prop}}
+
+
+\begin{document}
+
+
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Heat Equation: Mathematical Formulation}
+    \begin{itemize}
+        \item The heat equation describes how temperature distribution changes over time:
+        \[ \frac{\partial u}{\partial t} = \alpha \frac{\partial^2 u}{\partial x^2} \]
+        \item Where:
+        \begin{itemize}
+            \item $u(x,t)$ is temperature at position $x$ and time $t$
+            \item $\alpha$ is thermal diffusivity coefficient
+        \end{itemize}
+        \vspace{0.5cm}
+        \item \textbf{Physical Intuition:}
+        \begin{itemize}
+            \item Rate of change of temperature ($\frac{\partial u}{\partial t}$) is proportional to the curvature ($\frac{\partial^2 u}{\partial x^2}$)
+            \item Heat flows from hot to cold regions
+            \item System tends toward thermal equilibrium
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Finite Difference Approximation}
+    \begin{itemize}
+        \item We discretize space and time:
+        \begin{itemize}
+            \item Space: $x_i = i\Delta x$, where $i = 0,1,\ldots,N_x$
+            \item Time: $t_n = n\Delta t$, where $n = 0,1,\ldots,N_t$
+        \end{itemize}
+        \vspace{0.3cm}
+        \item Approximate derivatives:
+        \begin{align*}
+            \frac{\partial u}{\partial t} &\approx \frac{u_i^{n+1} - u_i^n}{\Delta t} \\
+            \frac{\partial^2 u}{\partial x^2} &\approx \frac{u_{i+1}^n - 2u_i^n + u_{i-1}^n}{(\Delta x)^2}
+        \end{align*}
+        \vspace{0.3cm}
+        \item Leads to explicit scheme:
+        \[ u_i^{n+1} = u_i^n + \alpha\frac{\Delta t}{(\Delta x)^2}(u_{i+1}^n - 2u_i^n + u_{i-1}^n) \]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Numerical Implementation}
+    \begin{algorithm}[H]
+        \begin{algorithmic}[1]
+            \State \textbf{Initialize:} Domain length $L$, grid points $N_x$, time $T$
+            \State Set $\Delta x = L/N_x$, $\alpha$, $\Delta t \leq \frac{(\Delta x)^2}{2\alpha}$
+            \State Create spatial grid: $x_i = i\Delta x$, $i = 0,\ldots,N_x$
+            \State Set initial condition: $u_i^0 = f(x_i)$
+            \State Set boundary conditions: $u_0^n = u_{N_x}^n = 0$
+            \For{$n = 0$ to $N_t-1$}
+                \For{$i = 1$ to $N_x-1$}
+                    \State $u_i^{n+1} = u_i^n + \alpha\frac{\Delta t}{(\Delta x)^2}(u_{i+1}^n - 2u_i^n + u_{i-1}^n)$
+                \EndFor
+                \State Update boundary conditions
+                \If{visualization step}
+                    \State Plot current solution
+                \EndIf
+            \EndFor
+        \end{algorithmic}
+        \caption{Explicit Finite Difference Method for Heat Equation}
+    \end{algorithm}
+\end{frame}
+
+\begin{frame}{Stability and Convergence}
+    \begin{itemize}
+        \item \textbf{Stability Condition:}
+        \[ \Delta t \leq \frac{(\Delta x)^2}{2\alpha} \]
+        \item This is known as the CFL (Courant-Friedrichs-Lewy) condition
+        \vspace{0.3cm}
+        \item \textbf{Key Implementation Considerations:}
+        \begin{itemize}
+            \item Choose $\Delta t$ to satisfy stability condition
+            \item Handle boundary conditions consistently
+            \item Consider mesh refinement for accuracy
+            \item Monitor solution behavior for instabilities
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\end{document}

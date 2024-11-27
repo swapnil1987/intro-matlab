@@ -1,0 +1,323 @@
+\documentclass[10pt]{beamer}
+\usepackage{tabulary}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{tabulary}
+\usepackage{caption}
+\usepackage{listings}
+\usepackage{xcolor}
+
+\lstset{
+    language=Matlab,
+    basicstyle=\footnotesize\ttfamily,
+    keywordstyle=\color{blue},
+    commentstyle=\color{green!60!black},
+    stringstyle=\color{red},
+    numbers=left,
+    numberstyle=\tiny,
+    frame=single,
+    breaklines=true
+}
+
+%\usefonttheme{professionalfonts}
+%\setbeamerfont{itemize/enumerate body}{family=\sffamily, size={\fontsize{10}{10}}}
+%\setbeamerfont{itemize/enumerate subbody}{family=\sffamily, size={\fontsize{10}{10}}}
+\setbeamerfont{frametitle}{size=\large}
+
+%\mode<presentation>
+%\usetheme{CambridgeUS}
+\usetheme{metropolis}
+\usecolortheme{default} % change this to change the color scheme
+\usepackage{istgame}
+%\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+\usepackage{caption,subcaption}
+\usepackage[flushleft]{threeparttable}
+\setbeamertemplate{itemize items}[circle]
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+% Define document properties
+%\title{\textsc{Social Status, Economic Development and Female Labor Force (Non) Participation}}
+
+%\author[Short Name (U ABC)]{%
+%  \texorpdfstring{%
+%    \begin{columns}
+%      \column{.5\linewidth}
+%      \centering
+%     Kaivan Munshi \\ Yale University
+%      \column{.5\linewidth}
+%      \centering
+%      Swapnil Singh \\ Bank of Lithuania
+%    \end{columns}
+% }
+% {Anu Alexander, Nancy Luke, Kaivan Munshi, Swapnil Singh}
+%}
+
+%\date{April 2024}
+
+\newcommand*\widebar[1]{%
+   \hbox{%
+     \vbox{%
+       \hrule height 0.5pt % The actual bar
+       \kern0.5ex%         % Distance between bar and symbol
+       \hbox{%
+         \kern-0.1em%      % Shortening on the left side
+         \ensuremath{#1}%
+         \kern-0.1em%      % Shortening on the right side
+       }%
+     }%
+   }%
+}
+
+% bibtex fix
+\bibliographystyle{plainnat}
+
+
+% theorems etc
+\theoremstyle{plain}% default
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+%\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{exmp}{Example}
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+%\newtheorem*{note}{Note}
+\newtheorem{case}{Case}
+
+% References to theorems etc
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\propref}[1]{Proposition~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+
+\newcommand{\propnumber}{} % initialize
+\newtheorem*{prop}{Proposition \propnumber}
+\newenvironment{propc}[1]
+{\renewcommand{\propnumber}{#1}%
+\begin{prop}
+		\end{prop}}
+
+
+        \title{Vectorization}
+        \subtitle{Lecture 3}
+        \author{Swapnil Singh\\LB, KTU}
+        
+        \date{\today}
+               
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+
+\begin{frame}[fragile]{Fundamental Concepts}
+  \begin{itemize}
+      \item Definition: Replacing loop-based operations with array operations
+      \item Core principle: Leveraging MATLAB's optimized array operations
+      \item Performance implications: Reduced overhead and improved execution speed
+      \item Memory considerations: Efficient utilization of computational resources
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Vectorization Principles}
+  \begin{columns}
+      \column{0.6\textwidth}
+      \textbf{Key Advantages:}
+      \begin{itemize}
+          \item Elimination of explicit loops
+          \item Improved code readability
+          \item Enhanced execution efficiency
+          \item Better memory management
+      \end{itemize}
+      
+      \column{0.4\textwidth}
+      \textbf{Primary Applications:}
+      \begin{itemize}
+          \item Numerical computations
+          \item Data preprocessing
+          \item Signal processing
+          \item Statistical analysis
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Element-wise Operations}
+  \textbf{Traditional Approach vs. Vectorized Solution}
+  \begin{lstlisting}
+% Non-vectorized
+for i = 1:length(x)
+  y(i) = sin(x(i))^2 + cos(x(i))^2;
+end
+
+% Vectorized
+y = sin(x).^2 + cos(x).^2;
+  \end{lstlisting}
+  \begin{itemize}
+      \item Note the use of element-wise operators (.)
+      \item Simplified syntax and improved performance
+      \item Automatic parallel execution capabilities
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Matrix Operations}
+  \textbf{Efficient Matrix Computations}
+  \begin{lstlisting}
+% Computing pairwise distances
+% Non-vectorized
+for i = 1:size(X,1)
+  for j = 1:size(X,1)
+      D(i,j) = norm(X(i,:)-X(j,:));
+  end
+end
+
+% Vectorized
+D = sqrt(sum((X - permute(X,[3,2,1])).^2,2));
+  \end{lstlisting}
+  \begin{itemize}
+      \item Exploitation of MATLAB's matrix operations
+      \item Dimensional analysis for optimal implementation
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Logical Indexing}
+  \textbf{Advanced Selection Techniques}
+  \begin{lstlisting}
+% Find and replace values
+% Non-vectorized
+for i = 1:length(x)
+  if x(i) < threshold
+      x(i) = 0;
+  end
+end
+
+% Vectorized
+x(x < threshold) = 0;
+  \end{lstlisting}
+  \begin{itemize}
+      \item Boolean array operations
+      \item Conditional vector assignments
+      \item Mask-based computations
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Broadcasting and Expansion}
+  \textbf{Implicit Dimension Handling}
+  \begin{columns}
+      \column{0.5\textwidth}
+      \begin{lstlisting}
+% Broadcasting example
+A = rand(100,1);
+B = rand(1,100);
+C = A + B;  % 100x100
+      \end{lstlisting}
+      
+      \column{0.5\textwidth}
+      \textbf{Key Concepts:}
+      \begin{itemize}
+          \item Automatic size matching
+          \item Dimension compatibility
+          \item Memory efficiency
+      \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Performance Analysis}
+  \textbf{Comparative Benchmarking}
+  \begin{itemize}
+      \item Execution time measurements
+      \begin{lstlisting}
+tic; % vectorized code; toc
+      \end{lstlisting}
+      \item Memory profiling techniques
+      \begin{lstlisting}
+profile on; % code; profile viewer
+      \end{lstlisting}
+      \item Optimization strategies
+      \begin{itemize}
+          \item Preallocating arrays
+          \item Avoiding temporary arrays
+          \item Utilizing built-in functions
+      \end{itemize}
+  \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Common Pitfalls}
+  \textbf{Optimization Challenges}
+  \begin{itemize}
+      \item Excessive memory allocation in vectorized operations
+      \item Inappropriate use of cell arrays in numerical computations
+      \item Inefficient handling of sparse matrices
+      \item Suboptimal implementation of conditional operations
+  \end{itemize}
+  \begin{lstlisting}
+% Memory-intensive operation
+result = arrayfun(@heavy_function, ...
+               large_array);  % Avoid
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Best Practices}
+  \textbf{Guidelines for Efficient Vectorization}
+  \begin{columns}
+      \column{0.5\textwidth}
+      \textbf{Do:}
+      \begin{itemize}
+          \item Preallocate arrays
+          \item Use built-in functions
+          \item Profile code performance
+          \item Consider memory usage
+      \end{itemize}
+      
+      \column{0.5\textwidth}
+      \textbf{Avoid:}
+          \begin{itemize}
+              \item Growing arrays incrementally
+              \item Unnecessary type conversions
+              \item Complex nested loops
+              \item Redundant computations
+          \end{itemize}
+  \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Advanced Applications}
+  \textbf{Real-world Implementation Scenarios}
+  \begin{itemize}
+      \item Image processing operations
+      \item Signal analysis algorithms
+      \item Statistical computations
+      \item Machine learning implementations
+      \item Numerical optimization routines
+  \end{itemize}
+  \begin{lstlisting}
+% Example: Image filtering
+filtered = conv2(image, kernel, 'same');
+  \end{lstlisting}
+\end{frame}
+
+\begin{frame}[fragile]{Summary}
+  \textbf{Key Takeaways}
+  \begin{itemize}
+      \item Vectorization as a fundamental optimization strategy
+      \item Balance between code readability and performance
+      \item Importance of proper implementation techniques
+      \item Consideration of hardware limitations
+      \item Role in modern scientific computing
+  \end{itemize}
+\end{frame}
+
+
+\end{document}

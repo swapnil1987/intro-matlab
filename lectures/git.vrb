@@ -1,0 +1,14 @@
+\frametitle{Remote Repositories}
+\begin{verbatim}
+    # Add remote repository
+    git remote add origin <url>
+
+    # Push changes
+    git push -u origin main
+
+    # Pull changes
+    git pull origin main
+
+    # Clone repository
+    git clone <url>
+    \end{verbatim}

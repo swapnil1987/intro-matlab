@@ -1,0 +1,20 @@
+\frametitle{Algorithm Implementation}
+\begin{algorithm2e}[H]
+    \SetAlgoLined
+    \KwIn{Initial guess $x_0$, tolerance $\epsilon$, max iterations $N$}
+    \KwOut{Optimal point $x^*$}
+
+    $k \leftarrow 0$\;
+    \While{$k < N$}{
+        Compute gradient: $g_k = \nabla f(x_k)$\;
+        Compute Hessian: $H_k = H(x_k)$\;
+        \If{$\|g_k\| < \epsilon$}{
+            \Return{$x_k$}\;
+        }
+        Solve: $H_k d_k = -g_k$\;
+        Update: $x_{k+1} = x_k + d_k$\;
+        $k \leftarrow k + 1$\;
+    }
+    \Return{$x_k$}
+    \caption{Newton-Raphson Optimization}
+    \end{algorithm2e}

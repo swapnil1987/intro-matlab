@@ -1,0 +1,170 @@
+\documentclass[10pt]{beamer}
+\usetheme{metropolis}
+
+% Additional packages
+\usepackage{listings}
+\usepackage{graphicx}
+\usepackage{tikz}
+
+% Title information
+\title{Version Control with Git}
+\subtitle{Fundamentals and Best Practices}
+\author{Advanced Software Engineering Course}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Course Objectives}
+    \begin{itemize}
+        \item Understand the fundamental concepts of version control
+        \item Master essential Git commands and workflows
+        \item Learn collaborative development practices
+        \item Implement branching strategies effectively
+        \item Resolve common Git challenges
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Basic Git Configuration}
+    \begin{verbatim}
+    # Initial configuration
+    git config --global user.name "Your Name"
+    git config --global user.email "email@example.com"
+    
+    # Create new repository
+    git init
+    
+    # Check status
+    git status
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{Git Repository Structure}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Working Directory}
+        \begin{itemize}
+            \item Contains actual files
+            \item Where you make changes
+            \item Untracked/tracked files
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Repository (.git)}
+        \begin{itemize}
+            \item Stores all versions
+            \item Contains metadata
+            \item Manages branches
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Basic Git Commands}
+    \begin{verbatim}
+    # Stage changes
+    git add <filename>
+    git add .  # Stage all changes
+    
+    # Commit changes
+    git commit -m "Descriptive message"
+    
+    # View history
+    git log
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{The Git Workflow}
+    \begin{itemize}
+        \item \textbf{Working Directory}
+        \begin{itemize}
+            \item Where you modify files
+            \item Contains untracked changes
+        \end{itemize}
+        \item \textbf{Staging Area (Index)}
+        \begin{itemize}
+            \item Prepares changes for commit
+            \item Review before committing
+        \end{itemize}
+        \item \textbf{Repository}
+        \begin{itemize}
+            \item Permanent storage
+            \item Contains commit history
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Branching and Merging}
+    \begin{verbatim}
+    # Create and switch to new branch
+    git branch feature-branch
+    git checkout feature-branch
+    
+    # Or in one command
+    git checkout -b feature-branch
+    
+    # Merge branches
+    git checkout main
+    git merge feature-branch
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{Best Practices}
+    \begin{itemize}
+        \item Write clear, descriptive commit messages
+        \item Commit early and often
+        \item Use meaningful branch names
+        \item Review changes before committing
+        \item Keep repositories clean and organized
+        \item Document important workflows
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Remote Repositories}
+    \begin{verbatim}
+    # Add remote repository
+    git remote add origin <url>
+    
+    # Push changes
+    git push -u origin main
+    
+    # Pull changes
+    git pull origin main
+    
+    # Clone repository
+    git clone <url>
+    \end{verbatim}
+\end{frame}
+
+\begin{frame}{Collaborative Development}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Push/Pull Workflow}
+        \begin{itemize}
+            \item Regular pulls
+            \item Feature branches
+            \item Code review
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Best Practices}
+        \begin{itemize}
+            \item Pull before push
+            \item Resolve conflicts
+            \item Use pull requests
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}{Additional Resources}
+    \begin{itemize}
+        \item Official Git documentation: \url{git-scm.com/doc}
+        \item Interactive Git learning: \url{learngitbranching.js.org}
+        \item Git cheat sheet: \url{github.github.com/training-kit}
+        \item Community forums and Stack Overflow
+    \end{itemize}
+\end{frame}
+
+\end{document}

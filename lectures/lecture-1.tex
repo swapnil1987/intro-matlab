@@ -1,0 +1,248 @@
+\documentclass[10pt]{beamer}
+\usepackage{tabulary}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{tabulary}
+\usepackage{caption}
+%\usefonttheme{professionalfonts}
+%\setbeamerfont{itemize/enumerate body}{family=\sffamily, size={\fontsize{10}{10}}}
+%\setbeamerfont{itemize/enumerate subbody}{family=\sffamily, size={\fontsize{10}{10}}}
+\setbeamerfont{frametitle}{size=\large}
+
+%\mode<presentation>
+%\usetheme{CambridgeUS}
+\usetheme{metropolis}
+\usecolortheme{default} % change this to change the color scheme
+\usepackage{istgame}
+%\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+\usepackage{caption,subcaption}
+\usepackage[flushleft]{threeparttable}
+\setbeamertemplate{itemize items}[circle]
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+% Define document properties
+%\title{\textsc{Social Status, Economic Development and Female Labor Force (Non) Participation}}
+
+%\author[Short Name (U ABC)]{%
+%  \texorpdfstring{%
+%    \begin{columns}
+%      \column{.5\linewidth}
+%      \centering
+%     Kaivan Munshi \\ Yale University
+%      \column{.5\linewidth}
+%      \centering
+%      Swapnil Singh \\ Bank of Lithuania
+%    \end{columns}
+% }
+% {Anu Alexander, Nancy Luke, Kaivan Munshi, Swapnil Singh}
+%}
+
+%\date{April 2024}
+
+\newcommand*\widebar[1]{%
+   \hbox{%
+     \vbox{%
+       \hrule height 0.5pt % The actual bar
+       \kern0.5ex%         % Distance between bar and symbol
+       \hbox{%
+         \kern-0.1em%      % Shortening on the left side
+         \ensuremath{#1}%
+         \kern-0.1em%      % Shortening on the right side
+       }%
+     }%
+   }%
+}
+
+% bibtex fix
+\bibliographystyle{plainnat}
+
+
+% theorems etc
+\theoremstyle{plain}% default
+\newtheorem{thm}{Theorem}
+\newtheorem{lem}{Lemma}
+%\newtheorem{prop}{Proposition}
+\newtheorem{cor}{Corollary}
+\theoremstyle{definition}
+\newtheorem{defn}{Definition}
+\newtheorem{conj}{Conjecture}
+\newtheorem{exmp}{Example}
+\theoremstyle{remark}
+\newtheorem*{rem}{Remark}
+%\newtheorem*{note}{Note}
+\newtheorem{case}{Case}
+
+% References to theorems etc
+\newcommand{\thmref}[1]{Theorem~\ref{#1}}
+\newcommand{\lemref}[1]{Lemma~\ref{#1}}
+\newcommand{\propref}[1]{Proposition~\ref{#1}}
+\newcommand{\corref}[1]{Corollary~\ref{#1}}
+\newcommand{\defref}[1]{Definition~\ref{#1}}
+
+\newcommand{\propnumber}{} % initialize
+\newtheorem*{prop}{Proposition \propnumber}
+\newenvironment{propc}[1]
+{\renewcommand{\propnumber}{#1}%
+\begin{prop}
+		\end{prop}}
+
+
+        \title{Introduction to MATLAB}
+        \subtitle{Lecture 1}
+        \author{Swapnil Singh\\LB, KTU}
+        
+        \date{\today}
+               
+\begin{document}
+
+\begin{frame}
+\titlepage
+\end{frame}
+
+\begin{frame}{What is MATLAB?}
+\begin{itemize}
+    \item MATLAB = MATrix LABoratory
+    \item High-level programming language and numerical computing environment
+    \item Developed by MathWorks (1984)
+    \item Primarily designed for:
+        \begin{itemize}
+            \item Matrix manipulations
+            \item Numerical analysis
+            \item Scientific computing
+            \item Data visualization
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Key Features}
+\begin{itemize}
+    \item Interactive development environment (IDE)
+    \item Built-in math functions and libraries
+    \item Powerful matrix operations
+    \item Extensive toolboxes for specialized domains
+    \item Integrated plotting and visualization
+    \item Simulink for model-based design
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Advantages of MATLAB (1/2)}
+\begin{itemize}
+    \item \textbf{Ease of Use}
+        \begin{itemize}
+            \item Intuitive syntax
+            \item No explicit memory management
+            \item Interactive development
+        \end{itemize}
+    \item \textbf{Mathematical Operations}
+        \begin{itemize}
+            \item Efficient matrix computations
+            \item Built-in linear algebra functions
+            \item Optimized numerical routines
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Advantages of MATLAB (2/2)}
+\begin{itemize}
+    \item \textbf{Visualization}
+        \begin{itemize}
+            \item Publication-quality graphics
+            \item 2D and 3D plotting capabilities
+            \item Interactive visualization tools
+        \end{itemize}
+    \item \textbf{Ecosystem}
+        \begin{itemize}
+            \item Extensive documentation
+            \item Large user community
+            \item Professional support
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Limitations and Disadvantages (1/2)}
+\begin{itemize}
+    \item \textbf{Cost}
+        \begin{itemize}
+            \item Expensive commercial license
+            \item Toolboxes sold separately
+            \item Limited free alternatives
+        \end{itemize}
+    \item \textbf{Performance}
+        \begin{itemize}
+            \item Slower than compiled languages
+            \item Memory intensive
+            \item Not ideal for large-scale applications
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{Limitations and Disadvantages (2/2)}
+\begin{itemize}
+    \item \textbf{Programming Limitations}
+        \begin{itemize}
+            \item 1-based indexing (unlike most languages)
+            \item Limited object-oriented features
+            \item Not suitable for general-purpose programming
+        \end{itemize}
+    \item \textbf{Deployment Challenges}
+        \begin{itemize}
+            \item Runtime environment required
+            \item Complex licensing for deployed applications
+            \item Platform dependencies
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}{When to Use MATLAB?}
+\begin{columns}
+\column{0.5\textwidth}
+\textbf{Ideal For:}
+\begin{itemize}
+    \item Prototyping algorithms
+    \item Scientific research
+    \item Data analysis
+    \item Signal processing
+    \item Control systems
+\end{itemize}
+
+\column{0.5\textwidth}
+\textbf{Less Suitable For:}
+\begin{itemize}
+    \item Web development
+    \item Large-scale software
+    \item Real-time systems
+    \item Resource-constrained environments
+\end{itemize}
+\end{columns}
+\end{frame}
+
+\begin{frame}{Summary}
+\begin{itemize}
+    \item MATLAB is a powerful tool for scientific computing
+    \item Excels in:
+        \begin{itemize}
+            \item Numerical computations
+            \item Data visualization
+            \item Rapid prototyping
+        \end{itemize}
+    \item Consider alternatives when:
+        \begin{itemize}
+            \item Cost is a major factor
+            \item Performance is critical
+            \item General-purpose programming is needed
+        \end{itemize}
+\end{itemize}
+\end{frame}
+
+
+
+\end{document}

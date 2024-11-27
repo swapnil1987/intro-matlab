@@ -1,0 +1,182 @@
+\documentclass[10pt]{beamer}
+\usepackage{tabulary}
+\usepackage{amsfonts}
+\usepackage{color}
+\usepackage{amssymb}
+\usepackage{amsmath}
+\usepackage{amsthm}
+\usepackage{epstopdf}
+\usepackage{natbib}
+\usepackage{setspace}
+\usepackage{booktabs}
+\usepackage{tikz}
+\usepackage{graphicx}
+\usepackage{tabulary}
+\usepackage{caption} 
+
+\usecolortheme{whale}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+%\usefonttheme{professionalfonts}
+%\setbeamerfont{itemize/enumerate body}{family=\sffamily, size={\fontsize{10}{10}}}
+%\setbeamerfont{itemize/enumerate subbody}{family=\sffamily, size={\fontsize{10}{10}}}
+\setbeamerfont{frametitle}{size=\large}
+
+%\mode<presentation>
+%\usetheme{CambridgeUS}
+\usetheme{metropolis}
+
+\title{The Heat Equation: Theory and Implementation}
+\author{Graduate Numerical Methods}
+\date{\today}
+
+\usecolortheme{default} % change this to change the color scheme
+\usepackage{istgame}
+%\setbeamercovered{transparent}
+\setbeamertemplate{navigation symbols}{}
+\usepackage{caption,subcaption}
+\usepackage[flushleft]{threeparttable}
+\setbeamertemplate{itemize items}[circle]
+\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
+% Define document properties
+\title{\textsc{The Heat Equation: Theory and Implementation}}
+
+\author{Graduate Numerical Methods}
+\date{\today}
+
+\begin{document}
+
+\begin{frame}
+    \titlepage
+\end{frame}
+
+\begin{frame}{Genetic Algorithms: Core Concepts}
+    \begin{itemize}
+        \item \textbf{Evolutionary Optimization:}
+        \begin{itemize}
+            \item Inspired by natural selection and evolution
+            \item Population-based optimization method
+            \item Combines exploration and exploitation
+        \end{itemize}
+        \vspace{0.3cm}
+        \item \textbf{Key Components:}
+        \begin{itemize}
+            \item Population: Set of potential solutions
+            \item Genes: Parameters to be optimized
+            \item Fitness Function: Measures solution quality
+            \item Selection: Choose best individuals
+            \item Crossover: Combine good solutions
+            \item Mutation: Introduce random variations
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Population and Encoding}
+    \begin{itemize}
+        \item \textbf{Solution Representation:}
+        \begin{itemize}
+            \item Binary encoding: $[1,0,1,1,0,...]$
+            \item Real-valued encoding: $[3.14, 2.71, ...]$
+            \item Permutation encoding: $[3,1,4,2,...]$
+        \end{itemize}
+        \vspace{0.3cm}
+        \item \textbf{Population Structure:}
+        \begin{itemize}
+            \item Size: Typically 50-200 individuals
+            \item Diversity: Key for exploration
+            \item Generation: Complete set of solutions
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Genetic Operators}
+    \textbf{Selection Methods:}
+    \begin{itemize}
+        \item Roulette Wheel Selection
+        \item Tournament Selection
+        \item Rank-based Selection
+    \end{itemize}
+    
+    \textbf{Crossover Operations:}
+    \begin{itemize}
+        \item Single-point: $[1,1,|1,0] + [0,0,|0,1] \rightarrow [1,1,0,1]$
+        \item Two-point: $[1,|1,1|,0] + [0,|0,0|,1] \rightarrow [1,0,0,0]$
+        \item Uniform: Random mixing of parents
+    \end{itemize}
+    
+    \textbf{Mutation:}
+    \begin{itemize}
+        \item Bit flip (binary): $[1,1,0,1] \rightarrow [1,0,0,1]$
+        \item Gaussian (real): $x' = x + \mathcal{N}(0,\sigma)$
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Algorithm Implementation}
+    \begin{algorithm2e}[H]
+    \SetAlgoLined
+    \KwIn{Population size $N$, Generation limit $G$, Problem parameters}
+    \KwOut{Best solution found and its fitness}
+    
+    Initialize population $P$ with $N$ random solutions\;
+    Evaluate fitness $f(x)$ for each solution $x \in P$\;
+    
+    \For{generation = 1 \KwTo G}{
+        $P_{new} \leftarrow \emptyset$\;
+        
+        \While{$|P_{new}| < N$}{
+            Select parents $p_1, p_2$ from $P$ based on fitness\;
+            $(c_1, c_2) \leftarrow$ Crossover$(p_1, p_2)$\;
+            $c_1 \leftarrow$ Mutation$(c_1)$\;
+            $c_2 \leftarrow$ Mutation$(c_2)$\;
+            Add $c_1, c_2$ to $P_{new}$\;
+        }
+        
+        Evaluate fitness for all $x \in P_{new}$\;
+        $P \leftarrow$ Best $N$ solutions from $P \cup P_{new}$\;
+        
+        \If{convergence criterion met}{
+            break\;
+        }
+    }
+    \Return{Best solution in $P$ and its fitness}
+    \caption{Genetic Algorithm for Optimization}
+    \end{algorithm2e}
+\end{frame}
+
+\begin{frame}{Implementation Details}
+    \textbf{Key Parameters:}
+    \begin{itemize}
+        \item Population size: Balance between diversity and speed
+        \item Crossover rate: Typically 0.7-0.9
+        \item Mutation rate: Usually 0.001-0.05
+        \item Selection pressure: Tournament size or scaling factor
+    \end{itemize}
+    
+    \textbf{Practical Considerations:}
+    \begin{itemize}
+        \item Constraint handling
+        \item Elitism: Preserve best solutions
+        \item Premature convergence prevention
+        \item Termination criteria
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Example Application: Function Optimization}
+    \textbf{Problem Setup:}
+    \begin{itemize}
+        \item Objective: Minimize $f(x,y) = x^2 + y^2 - \cos(18x) - \cos(18y)$
+        \item Constraints: $-1 \leq x,y \leq 1$
+        \item Encoding: Real-valued chromosomes
+    \end{itemize}
+    
+    \textbf{GA Configuration:}
+    \begin{itemize}
+        \item Population size: 100
+        \item Tournament selection: size 3
+        \item Arithmetic crossover
+        \item Gaussian mutation: $\sigma = 0.1$
+        \item Elitism: Preserve top 2 solutions
+    \end{itemize}
+\end{frame}
+
+\end{document}
