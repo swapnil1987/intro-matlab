@@ -82,10 +82,11 @@ By the end of this course, students will be able to:
 - Stack Overflow MATLAB tag
 - MIT OpenCourseWare MATLAB resources
 
+### Communications
 - Email: ssingh@lb.lt
 
 ## Contributing
 Found a bug in the example code? Have a suggestion for improvement? Please open an issue or submit a pull request.
 
 ---
-*Last updated: [Current Date]*
+*Last updated: 2024-11-27*
