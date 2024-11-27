@@ -47,13 +47,7 @@ This repository contains materials for the Introduction to MATLAB course, focusi
 ```
 .
 ├── lectures/           # Lecture materials and slides
-├── exercises/          # Weekly programming exercises
-├── projects/           # Extended project assignments
-├── examples/           # Example code and demonstrations
-│   ├── pde/           # Partial differential equations
-│   ├── optimization/  # Newton-Raphson and related methods
-│   └── visualization/ # Plotting and visualization examples
-└── resources/         # Additional learning materials
+├── codes/           # Example code and demonstrations
 ```
 
 ## Getting Started
