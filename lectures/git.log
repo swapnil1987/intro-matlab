@@ -1,4 +1,4 @@
-This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.7)  27 NOV 2024 13:45
+This is pdfTeX, Version 3.141592653-2.6-1.40.24 (MiKTeX 22.7) (preloaded format=pdflatex 2022.9.7)  27 NOV 2024 14:41
 entering extended mode
  restricted \write18 enabled.
  file:line:error style messages enabled.
@@ -656,12 +656,16 @@ File: lstmisc.sty 2020/03/24 1.8d (Carsten Heinz)
 File: listings.cfg 2020/03/24 1.8d listings configuration
 ))
 Package: listings 2020/03/24 1.8d (Carsten Heinz)
- (C:\Users\ssingh\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
+
+
+Package hyperref Warning: Token not allowed in a PDF string (Unicode):
+(hyperref)                removing `\\' on input line 12.
+
+(C:\Users\ssingh\AppData\Local\Programs\MiKTeX\tex/latex/l3backend\l3backend-pdftex.def
 File: l3backend-pdftex.def 2022-07-01 L3 backend support: PDF output (pdfTeX)
 \l__color_backend_stack_int=\count354
 \l__pdf_internal_box=\box83
-)
-No file git.aux.
+) (git.aux)
 \openout1 = `git.aux'.
 
 LaTeX Font Info:    Checking defaults for OML/cmm/m/it on input line 15.
@@ -682,6 +686,7 @@ LaTeX Font Info:    Checking defaults for PD1/pdf/m/n on input line 15.
 LaTeX Font Info:    ... okay on input line 15.
 LaTeX Font Info:    Checking defaults for PU/pdf/m/n on input line 15.
 LaTeX Font Info:    ... okay on input line 15.
+
 *geometry* driver: auto-detecting
 *geometry* detected driver: pdftex
 *geometry* verbose mode - [ preamble ] result:
@@ -736,6 +741,7 @@ Package epstopdf-base Info: Redefining graphics rule for `.eps' on input line 48
 File: epstopdf-sys.cfg 2021/03/18 v2.0 Configuration of epstopdf for MiKTeX
 ))
 Package hyperref Info: Link coloring OFF on input line 15.
+ (git.out) (git.out)
 \@outlinefile=\write5
 \openout5 = `git.out'.
 
@@ -802,9 +808,7 @@ Dictionary: translator-numbers-dictionary, Language: English
 Dictionary: translator-theorem-dictionary, Language: English 
 )
 \c@lstlisting=\count361
-
-No file git.nav.
-
+ (git.nav)
 Overfull \vbox (39.39362pt too high) detected at line 19
  []
 
@@ -869,25 +873,19 @@ File: ot1mathkerncmss.fd 2020/01/31 Fontinst v1.933 font definitions for OT1/mat
 \openout8 = `git.snm'.
 
  (git.aux)
-
-Package rerunfilecheck Warning: File `git.out' has changed.
-(rerunfilecheck)                Rerun to get outlines right
-(rerunfilecheck)                or use package `bookmark'.
-
-Package rerunfilecheck Info: Checksums for `git.out':
-(rerunfilecheck)             Before: <no file>
-(rerunfilecheck)             After:  D41D8CD98F00B204E9800998ECF8427E;0.
+Package rerunfilecheck Info: File `git.out' has not changed.
+(rerunfilecheck)             Checksum: D41D8CD98F00B204E9800998ECF8427E;0.
  ) 
 Here is how much of TeX's memory you used:
- 26572 strings out of 478338
- 540484 string characters out of 2836229
- 780889 words of memory out of 3000000
- 44443 multiletter control sequences out of 15000+600000
+ 26608 strings out of 478338
+ 541152 string characters out of 2836229
+ 780776 words of memory out of 3000000
+ 44471 multiletter control sequences out of 15000+600000
  476006 words of font info for 52 fonts, out of 8000000 for 9000
  1141 hyphenation exceptions out of 8191
  128i,13n,122p,1972b,578s stack positions out of 10000i,1000n,20000p,200000b,80000s
  <C:\Users\ssingh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss0900.pk> <C:\Users\ssingh\AppData\Local\MiKTeX\fonts/pk/ljfour/jknappen/ec/dpi600\tcss1000.pk><C:/Users/ssingh/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss10.pfb><C:/Users/ssingh/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss12.pfb><C:/Users/ssingh/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss8.pfb><C:/Users/ssingh/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmss9.pfb><C:/Users/ssingh/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmssbx10.pfb><C:/Users/ssingh/AppData/Local/Programs/MiKTeX/fonts/type1/public/amsfonts/cm/cmtt10.pfb>
-Output written on git.pdf (11 pages, 96763 bytes).
+Output written on git.pdf (11 pages, 96946 bytes).
 PDF statistics:
  120 PDF objects out of 1000 (max. 8388607)
  23 named destinations out of 1000 (max. 500000)
