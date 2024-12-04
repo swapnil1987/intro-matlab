@@ -35,7 +35,7 @@ function [x_opt, f_opt, path, f_path] = newton_raphson_armijo(f, grad, hess, x0,
     f_path = f(x0);
     
     % Armijo line search parameters
-    c = 0.1;        % Armijo parameter
+    c = 0.01;        % Armijo parameter
     beta = 0.5;     % Step reduction factor
     
     for i = 1:max_iter
@@ -103,9 +103,10 @@ figure('Position', [100 100 1200 400]);
 % Subplot 1: Contour plot with optimization path
 subplot(1,3,1)
 contour(X, Y, Z, 50);
+
 hold on
 plot(path(1,:), path(2,:), 'r.-', 'MarkerSize', 15);
-plot(x_opt(1), x_opt(2), 'r*', 'MarkerSize', 10);
+plot(x_opt(1), x_opt(2), 'k*', 'MarkerSize', 20);
 title('Optimization Path');
 xlabel('x');
 ylabel('y');
