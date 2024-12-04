@@ -1,20 +1,16 @@
-\frametitle{Algorithm Implementation}
-\begin{algorithm2e}[H]
-    \SetAlgoLined
-    \KwIn{Initial guess $x_0$, tolerance $\epsilon$, max iterations $N$}
-    \KwOut{Optimal point $x^*$}
+\frametitle{Summary}
+\textbf{Key Points:}
+    \begin{itemize}
+        \item Newton-Raphson combines quadratic approximation with line search
+        \item Armijo rule ensures sufficient decrease
+        \item Quadratic convergence near solution
+        \item Practical implementation requires careful attention to details
+    \end{itemize}
 
-    $k \leftarrow 0$\;
-    \While{$k < N$}{
-        Compute gradient: $g_k = \nabla f(x_k)$\;
-        Compute Hessian: $H_k = H(x_k)$\;
-        \If{$\|g_k\| < \epsilon$}{
-            \Return{$x_k$}\;
-        }
-        Solve: $H_k d_k = -g_k$\;
-        Update: $x_{k+1} = x_k + d_k$\;
-        $k \leftarrow k + 1$\;
-    }
-    \Return{$x_k$}
-    \caption{Newton-Raphson Optimization}
-    \end{algorithm2e}
+    \textbf{When to Use:}
+    \begin{itemize}
+        \item Smooth, well-behaved functions
+        \item When derivatives are available
+        \item When fast local convergence is needed
+        \item When good initial guess is available
+    \end{itemize}
