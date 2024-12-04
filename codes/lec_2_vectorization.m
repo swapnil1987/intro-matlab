@@ -11,11 +11,13 @@
 clc
 clear all
 
+
+
 %% Example 1: Basic Array Operations
 % Demonstrate vectorization with simple calculations
 
 % Create large arrays for testing
-n = 1000000;  % Size of arrays
+n = 10000;  % Size of arrays
 x = rand(1,n);
 y = rand(1,n);
 
@@ -79,6 +81,8 @@ fprintf('Example 2: Matrix Operations\n');
 fprintf('Loop time: %.6f seconds\n', time_loop_matrix);
 fprintf('Vectorized time: %.6f seconds\n', time_vec_matrix);
 fprintf('Speedup factor: %.2fx\n\n', time_loop_matrix/time_vec_matrix);
+
+
 
 %% Example 3: Logical Operations and Filtering
 % Demonstrate vectorization with conditional operations

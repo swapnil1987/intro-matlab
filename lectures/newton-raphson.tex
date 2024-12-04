@@ -16,107 +16,17 @@
 \usepackage{listings}
 \usecolortheme{whale}
 \usepackage{algorithm}
+\usepackage{algorithm2e}
 \usepackage{algpseudocode}
 \usepackage[ruled,vlined,noend]{algorithm2e}
 
-%\usefonttheme{professionalfonts}
-%\setbeamerfont{itemize/enumerate body}{family=\sffamily, size={\fontsize{10}{10}}}
-%\setbeamerfont{itemize/enumerate subbody}{family=\sffamily, size={\fontsize{10}{10}}}
-\setbeamerfont{frametitle}{size=\large}
-
-%\mode<presentation>
-%\usetheme{CambridgeUS}
 \usetheme{metropolis}
-
-\usepackage{istgame}
-%\setbeamercovered{transparent}
 \setbeamertemplate{navigation symbols}{}
-\usepackage{caption,subcaption}
-\usepackage[flushleft]{threeparttable}
 \setbeamertemplate{itemize items}[circle]
-\def\sym#1{\ifmmode^{#1}\else\(^{#1}\)\fi}
-% Define document properties
+
 \title{\textsc{Newton Raphson Method}}
-
 \date{\today}
-\author[Short Name (U ABC)]{%
-  \texorpdfstring{%
-    \begin{columns}
-      \column{\linewidth}
-      Swapnil Singh \\ Bank of Lithuania, KTU
-    \end{columns}
- }
- {Anu Alexander, Nancy Luke, Kaivan Munshi, Swapnil Singh}
-}
-
-
-\lstdefinestyle{matlab}{
-    language=Matlab,
-    basicstyle=\small\ttfamily,
-    numbers=left,
-    numberstyle=\tiny,
-    frame=tb,
-    columns=fullflexible,
-    backgroundcolor=\color{yellow!10},
-    linewidth=\textwidth,
-    keepspaces=true,
-    breaklines=true,
-    breakatwhitespace=true,
-    showspaces=false,
-    showtabs=false,
-    commentstyle=\color{green!60!black},
-    keywordstyle=\color{blue},
-    stringstyle=\color{red}
-}
-
-\newcommand*\widebar[1]{%
-   \hbox{%
-     \vbox{%
-       \hrule height 0.5pt % The actual bar
-       \kern0.5ex%         % Distance between bar and symbol
-       \hbox{%
-         \kern-0.1em%      % Shortening on the left side
-         \ensuremath{#1}%
-         \kern-0.1em%      % Shortening on the right side
-       }%
-     }%
-   }%
-} 
-
-% bibtex fix
-\bibliographystyle{plainnat}
-
-
-% theorems etc
-\theoremstyle{plain}% default
-\newtheorem{thm}{Theorem}
-\newtheorem{lem}{Lemma}
-%\newtheorem{prop}{Proposition}
-\newtheorem{cor}{Corollary}
-\theoremstyle{definition}
-\newtheorem{defn}{Definition}
-\newtheorem{conj}{Conjecture}
-\newtheorem{exmp}{Example}
-\theoremstyle{remark}
-\newtheorem*{rem}{Remark}
-%\newtheorem*{note}{Note}
-\newtheorem{case}{Case}
-
-% References to theorems etc
-\newcommand{\thmref}[1]{Theorem~\ref{#1}}
-\newcommand{\lemref}[1]{Lemma~\ref{#1}}
-\newcommand{\propref}[1]{Proposition~\ref{#1}}
-\newcommand{\corref}[1]{Corollary~\ref{#1}}
-\newcommand{\defref}[1]{Definition~\ref{#1}}
-
-
-\newcommand{\propnumber}{} % initialize
-\newtheorem*{prop}{Proposition \propnumber}
-\newenvironment{propc}[1]
-{\renewcommand{\propnumber}{#1}%
-\begin{prop}
-		\end{prop}}
-
+\author{Swapnil Singh \\ Bank of Lithuania, KTU}
 
 \begin{document}
 
@@ -124,9 +34,19 @@
     \titlepage
 \end{frame}
 
+\begin{frame}[fragile]{Outline}
+    \begin{itemize}
+        \item Introduction to Newton-Raphson Method
+        \item Mathematical Foundations
+        \item Line Search and Armijo Rule
+        \item Convergence Properties
+        \item Algorithm Implementation
+        \item Practical Considerations
+        \item Examples and Applications
+    \end{itemize}
+\end{frame}
 
-
-\begin{frame}{Newton-Raphson Method: Overview}
+\begin{frame}[fragile]{Introduction}
     \begin{itemize}
         \item \textbf{Purpose:} Find roots of equation $f(x) = 0$ or minimum/maximum of function
         \item \textbf{Key Idea:} Use local quadratic approximation
@@ -145,7 +65,7 @@
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Mathematical Foundation}
+\begin{frame}[fragile]{Mathematical Foundation}
     \textbf{For Root Finding:}
     \begin{align*}
         x_{k+1} &= x_k - \frac{f(x_k)}{f'(x_k)}
@@ -154,22 +74,60 @@
     \textbf{For Optimization:}
     \begin{itemize}
         \item Find where gradient is zero: $\nabla f(x) = 0$
-        \item Update formula:
+        \item Update formula with line search:
         \begin{align*}
-            x_{k+1} &= x_k - [H(x_k)]^{-1}\nabla f(x_k)
+            x_{k+1} &= x_k + \alpha_k d_k \\
+            d_k &= -[H(x_k)]^{-1}\nabla f(x_k)
         \end{align*}
         where:
         \begin{itemize}
             \item $\nabla f(x_k)$ is the gradient
             \item $H(x_k)$ is the Hessian matrix
+            \item $\alpha_k$ is the step size from line search
         \end{itemize}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Convergence Properties}
-    \textbf{Quadratic Convergence:}
+\begin{frame}[fragile]{Quadratic Approximation}
+    \textbf{Taylor Series Expansion:}
+    \begin{align*}
+        f(x_k + d) &\approx f(x_k) + \nabla f(x_k)^T d + \frac{1}{2}d^T H(x_k)d
+    \end{align*}
+    
+    \textbf{Finding the Minimum:}
     \begin{itemize}
-        \item Error reduces quadratically:
+        \item Take derivative with respect to $d$ and set to zero:
+        \[ \nabla f(x_k) + H(x_k)d = 0 \]
+        \item Solve for the Newton direction:
+        \[ d_k = -H(x_k)^{-1}\nabla f(x_k) \]
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Line Search with Armijo Rule}
+    \textbf{Armijo Condition:}
+    \begin{itemize}
+        \item Ensures sufficient decrease in function value
+        \item Step size $\alpha_k$ must satisfy:
+        \[ f(x_k + \alpha_k d_k) \leq f(x_k) + c\alpha_k\nabla f(x_k)^T d_k \]
+        where:
+        \begin{itemize}
+            \item $c$ is typically 0.1 (Armijo parameter)
+            \item $\alpha_k$ is reduced by factor $\beta$ (typically 0.5)
+        \end{itemize}
+    \end{itemize}
+    
+    \textbf{Benefits:}
+    \begin{itemize}
+        \item Guarantees descent property
+        \item Improves global convergence
+        \item Handles poor quadratic approximations
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Convergence Properties}
+    \textbf{Local Convergence:}
+    \begin{itemize}
+        \item Quadratic convergence near solution:
         \[ \|e_{k+1}\| \leq C\|e_k\|^2 \]
         \item Requires:
         \begin{itemize}
@@ -179,17 +137,19 @@
         \end{itemize}
     \end{itemize}
     
-    \textbf{Conditions for Minimum:}
+    \textbf{Global Convergence with Line Search:}
     \begin{itemize}
-        \item First-order: $\nabla f(x^*) = 0$
-        \item Second-order: $H(x^*)$ is positive definite
+        \item Armijo rule ensures:
+        \[ f(x_{k+1}) < f(x_k) \]
+        \item Convergence to local minimum under mild conditions
     \end{itemize}
 \end{frame}
 
 \begin{frame}[fragile]{Algorithm Implementation}
-    \begin{algorithm2e}[H]
+    \begin{algorithm2e}
     \SetAlgoLined
     \KwIn{Initial guess $x_0$, tolerance $\epsilon$, max iterations $N$}
+    \KwIn{Armijo parameter $c$, reduction factor $\beta$}
     \KwOut{Optimal point $x^*$}
     
     $k \leftarrow 0$\;
@@ -200,15 +160,22 @@
             \Return{$x_k$}\;
         }
         Solve: $H_k d_k = -g_k$\;
-        Update: $x_{k+1} = x_k + d_k$\;
+        $\alpha_k \leftarrow 1$\;
+        \While{$f(x_k + \alpha_k d_k) > f(x_k) + c\alpha_k g_k^T d_k$}{
+            $\alpha_k \leftarrow \beta\alpha_k$\;
+            \If{$\alpha_k < 10^{-10}$}{
+                break\;
+            }
+        }
+        Update: $x_{k+1} = x_k + \alpha_k d_k$\;
         $k \leftarrow k + 1$\;
     }
     \Return{$x_k$}
-    \caption{Newton-Raphson Optimization}
+    \caption{Newton-Raphson Optimization with Armijo Line Search}
     \end{algorithm2e}
 \end{frame}
 
-\begin{frame}{MATLAB Implementation Tips}
+\begin{frame}[fragile]{Implementation Details}
     \textbf{Key Components:}
     \begin{itemize}
         \item \textbf{Function Evaluation:}
@@ -223,30 +190,75 @@
             \item Check condition number
             \item Handle singular matrices
         \end{itemize}
-        \item \textbf{Convergence Check:}
+        \item \textbf{Line Search:}
         \begin{itemize}
-            \item Gradient norm
-            \item Step size
-            \item Function value change
+            \item Implement backtracking
+            \item Choose appropriate parameters
+            \item Handle convergence failures
         \end{itemize}
     \end{itemize}
 \end{frame}
 
-\begin{frame}{Practical Considerations}
+\begin{frame}[fragile]{Practical Considerations}
     \textbf{Implementation Challenges:}
     \begin{itemize}
         \item Choose appropriate stopping criteria
         \item Handle ill-conditioned Hessians
         \item Select good initial point
         \item Deal with non-convex functions
+        \item Choose appropriate line search parameters
+    \end{itemize}
+    
+    \textbf{Line Search Parameters:}
+    \begin{itemize}
+        \item Armijo parameter $c$ (typically 0.1)
+        \item Step reduction factor $\beta$ (typically 0.5)
+        \item Minimum step size threshold
     \end{itemize}
     
     \textbf{Improvements:}
     \begin{itemize}
-        \item Line search for step size
+        \item Strong Wolfe conditions
         \item Trust region methods
         \item Quasi-Newton methods (BFGS)
         \item Regularization for ill-conditioning
     \end{itemize}
 \end{frame}
+
+\begin{frame}[fragile]{Example Applications}
+    \textbf{Optimization Problems:}
+    \begin{itemize}
+        \item Maximum likelihood estimation
+        \item Least squares problems
+        \item Portfolio optimization
+        \item Machine learning (model training)
+    \end{itemize}
+    
+    \textbf{Root Finding:}
+    \begin{itemize}
+        \item Solving nonlinear equations
+        \item Finding equilibrium points
+        \item Solving boundary value problems
+        \item Financial derivatives pricing
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Summary}
+    \textbf{Key Points:}
+    \begin{itemize}
+        \item Newton-Raphson combines quadratic approximation with line search
+        \item Armijo rule ensures sufficient decrease
+        \item Quadratic convergence near solution
+        \item Practical implementation requires careful attention to details
+    \end{itemize}
+    
+    \textbf{When to Use:}
+    \begin{itemize}
+        \item Smooth, well-behaved functions
+        \item When derivatives are available
+        \item When fast local convergence is needed
+        \item When good initial guess is available
+    \end{itemize}
+\end{frame}
+
 \end{document}

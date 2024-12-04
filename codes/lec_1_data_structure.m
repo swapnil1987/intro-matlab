@@ -109,7 +109,8 @@ writecell(data, filename, 'Range', 'A2');      % Write data starting row 2
 % Extract components using array indexing
 % 2:end skips header row
 student_names_read = raw_data(2:end, 2:3);  % Get names (text)
-grades_read = num_data(:, 3:end);           % Get grades (numeric)
+grades_read = num_data(:, 4:end);           % Get grades (numeric)
+
 
 % Calculate basic statistics
 assignment_means = mean(grades_read(:, 1:4));  % Mean for each assignment
@@ -123,12 +124,15 @@ final_std = std(grades_read(:, 7));            % Standard deviation
 % Create figure window with specific size
 figure('Position', [100 100 1200 800]);  % [left bottom width height]
 
+
 % --- Assignment Grade Distributions ---
-subplot(2,2,1)  % 2×2 grid, first position
+subplot(2,2,1)  % 2×2 grid, first positio
 boxplot(grades_read(:,1:4), 'Labels', {'Assign 1', 'Assign 2', 'Assign 3', 'Assign 4'})
 title('Assignment Grade Distributions')
 ylabel('Grades')
+xlabel('Assignments')
 grid on
+
 
 % --- Exam Grade Distributions ---
 subplot(2,2,2)  % 2×2 grid, second position
@@ -168,6 +172,8 @@ str = sprintf(['Class Statistics:\n' ...
 annotation('textbox', dim, 'String', str, 'FitBoxToText', 'on', ...
            'BackgroundColor', 'white', 'EdgeColor', 'black');
 
+
+
 %% Part 4: Structure Arrays
 % This section demonstrates MATLAB structure arrays for organized data storage
 
@@ -190,3 +196,5 @@ for i = 1:3
     idx = top_indices(i);
     fprintf('%s: %.1f\n', students(idx).name, students(idx).final_grade);
 end
+
+
