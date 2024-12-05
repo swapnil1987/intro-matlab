@@ -1,0 +1,164 @@
+\documentclass[10pt]{beamer}
+
+\usetheme[progressbar=frametitle]{metropolis}
+\usepackage{amsmath}
+\usepackage{listings}
+\usepackage{algorithm}
+\usepackage{algpseudocode}
+
+\title{Understanding Recursion}
+\author{Swapnil Singh\\ LB, KTU}
+\date{\today}
+
+\begin{document}
+
+\maketitle
+
+\begin{frame}{What is Recursion?}
+    \begin{itemize}
+        \item A method where a function calls itself
+        \item Solves problems by breaking them into smaller subproblems
+        \item Two main components:
+        \begin{itemize}
+            \item Base case(s)
+            \item Recursive case(s)
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}{Key Concepts}
+    \begin{itemize}
+        \item \textbf{Base Case}
+        \begin{itemize}
+            \item Condition where recursion stops
+            \item Returns value directly without recursion
+        \end{itemize}
+        \item \textbf{Recursive Case}
+        \begin{itemize}
+            \item Problem broken into smaller subproblems
+            \item Function calls itself with modified parameters
+        \end{itemize}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Example 1: Factorial}
+    \begin{itemize}
+        \item Definition: n! = n × (n-1)!
+        \item Base case: 0! = 1! = 1
+    \end{itemize}
+    \begin{lstlisting}[language=Matlab]
+function fact = factorial_recursive(n)
+    if n == 0 || n == 1
+        fact = 1;
+    else
+        fact = n * factorial_recursive(n-1);
+    end
+end
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Factorial Call Stack}
+    5! calculation:
+    \begin{enumerate}
+        \item factorial(5) → 5 × factorial(4)
+        \item factorial(4) → 4 × factorial(3)
+        \item factorial(3) → 3 × factorial(2)
+        \item factorial(2) → 2 × factorial(1)
+        \item factorial(1) → 1
+    \end{enumerate}
+    Then unwind: 1 → 2 → 6 → 24 → 120
+\end{frame}
+
+\begin{frame}[fragile]{Example 2: Fibonacci Sequence}
+    \begin{itemize}
+        \item Each number is sum of previous two
+        \item Base cases: F(1) = F(2) = 1
+    \end{itemize}
+    \begin{lstlisting}[language=Matlab]
+function fib = fibonacci_recursive(n)
+    if n <= 2
+        fib = 1;
+    else
+        fib = fibonacci_recursive(n-1) + 
+             fibonacci_recursive(n-2);
+    end
+end
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Recursion vs Iteration}
+    \begin{columns}
+        \column{0.5\textwidth}
+        \textbf{Recursion}
+        \begin{itemize}
+            \item Elegant and clear
+            \item Memory intensive
+            \item Natural for tree structures
+        \end{itemize}
+        
+        \column{0.5\textwidth}
+        \textbf{Iteration}
+        \begin{itemize}
+            \item More efficient
+            \item Less memory usage
+            \item Better for linear problems
+        \end{itemize}
+    \end{columns}
+\end{frame}
+
+\begin{frame}[fragile]{Example 3: Binary Search}
+    \begin{lstlisting}[language=Matlab]
+function index = binary_search_recursive(arr, target, left, right)
+    if left > right
+        index = -1;
+        return;
+    end
+    
+    mid = floor((left + right)/2);
+    if arr(mid) == target
+        index = mid;
+    elseif arr(mid) > target
+        index = binary_search_recursive(arr, target, left, mid-1);
+    else
+        index = binary_search_recursive(arr, target, mid+1, right);
+    end
+end
+    \end{lstlisting}
+\end{frame}
+
+\begin{frame}{Classic Example: Tower of Hanoi}
+    \begin{itemize}
+        \item Problem:
+        \begin{itemize}
+            \item Move n disks from source to target
+            \item Using auxiliary pole
+            \item Larger disk cannot be on smaller disk
+        \end{itemize}
+        \item Recursive solution:
+        \begin{enumerate}
+            \item Move n-1 disks to auxiliary
+            \item Move largest disk to target
+            \item Move n-1 disks to target
+        \end{enumerate}
+    \end{itemize}
+\end{frame}
+
+\begin{frame}[fragile]{Tower of Hanoi Implementation}
+    \begin{lstlisting}[language=Matlab]
+function tower_of_hanoi(n, source, auxiliary, target)
+    if n == 1
+        fprintf('Move disk 1 from %s to %s\n', 
+                source, target);
+        return;
+    end
+    
+    tower_of_hanoi(n-1, source, target, auxiliary);
+    fprintf('Move disk %d from %s to %s\n', 
+            n, source, target);
+    tower_of_hanoi(n-1, auxiliary, source, target);
+end
+    \end{lstlisting}
+\end{frame}
+
+
+\end{document}

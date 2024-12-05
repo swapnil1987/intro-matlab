@@ -1,0 +1,15 @@
+\frametitle{Tower of Hanoi Implementation}
+\begin{lstlisting}[language=Matlab]
+function tower_of_hanoi(n, source, auxiliary, target)
+    if n == 1
+        fprintf('Move disk 1 from %s to %s\n',
+                source, target);
+        return;
+    end
+
+    tower_of_hanoi(n-1, source, target, auxiliary);
+    fprintf('Move disk %d from %s to %s\n',
+            n, source, target);
+    tower_of_hanoi(n-1, auxiliary, source, target);
+end
+    \end{lstlisting}
